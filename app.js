@@ -39,7 +39,6 @@ function setupBrands() {
   const modelSelect = qs("#modelSelect");
   const brandList = qs("#brandList");
 
-  // Fill brand dropdown
   brandSelect.innerHTML = `<option value="">Select brand</option>`;
   Object.keys(data).forEach((brand) => {
     const opt = document.createElement("option");
@@ -47,7 +46,6 @@ function setupBrands() {
     opt.textContent = brand;
     brandSelect.appendChild(opt);
 
-    // Brand card
     const card = document.createElement("button");
     card.className = "brand-card";
     card.textContent = brand;
@@ -55,9 +53,7 @@ function setupBrands() {
       state.selectedBrand = brand;
       brandSelect.value = brand;
       populateModels();
-      document
-        .querySelector('[data-step="1"]')
-        .scrollIntoView({ behavior: "smooth" });
+      document.querySelector('[data-step="1"]').scrollIntoView({ behavior: "smooth" });
     });
     brandList.appendChild(card);
   });
@@ -169,9 +165,7 @@ function calculateOffer() {
   state.offer = Math.round(base);
 
   qs("#offerTitle").textContent =
-    `${state.selectedBrand} ${state.selectedModel} (${capitalize(
-      state.condition
-    )})`;
+    `${state.selectedBrand} ${state.selectedModel} (${capitalize(state.condition)})`;
   qs("#offerAmount").textContent = state.offer;
 
   qs('[data-step="2"]').classList.add("hidden");
@@ -243,13 +237,32 @@ function setupCheckout() {
   on(qs("#closeModal"), "click", () => {
     modal.classList.add("hidden");
   });
+
+  // Show payment modal after confirming pickup
   on(form, "submit", (e) => {
     e.preventDefault();
-    alert("Pickup scheduled! Thank you.");
+    modal.classList.add("hidden");
+    qs("#paymentModal").classList.remove("hidden");
+  });
+}
+
+// ==============================
+// Payment Modal
+// ==============================
+function setupPayment() {
+  const paymentModal = qs("#paymentModal");
+  const closePayment = qs("#closePayment");
+  const confirmPaymentBtn = qs("#confirmPaymentBtn");
+
+  on(closePayment, "click", () => {
+    paymentModal.classList.add("hidden");
+  });
+
+  on(confirmPaymentBtn, "click", () => {
+    paymentModal.classList.add("hidden");
+    alert("Payment confirmed! Your order is scheduled for pickup. Thank you.");
     cart = [];
     renderCart();
-    modal.classList.add("hidden");
-    qs("#cartDrawer").classList.remove("open");
   });
 }
 
@@ -280,6 +293,7 @@ function init() {
   setupWizard();
   setupCart();
   setupCheckout();
+  setupPayment(); // <-- added
   detectDevice();
   qs("#year").textContent = new Date().getFullYear();
 }
