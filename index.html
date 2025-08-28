@@ -229,6 +229,27 @@
     </div>
   </div>
 
+  <!-- PAYMENT MODAL -->
+<div id="paymentModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="paymentTitle">Choose Payment</h3>
+      <button class="icon-btn" id="closePayment" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <p>Please choose your payment method:</p>
+      <label class="radio-card">
+        <input type="radio" name="payment" value="cod" checked />
+        <strong>Cash on Delivery</strong>
+      </label>
+      <div class="wizard-actions mt-3">
+        <button id="confirmPaymentBtn" class="btn btn-primary btn-block">Confirm Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <script src="app.js"></script>
 </body>
 
